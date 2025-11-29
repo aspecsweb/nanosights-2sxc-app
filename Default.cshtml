@@ -1,6 +1,54 @@
-@inherits Custom.Hybrid.RazorTyped
-@* FYI: this inherits from RazorTyped to use the latest APIs. Learn more on https://go.2sxc.org/cs-typed *@
+@inherits AppCode.Razor.AppRazor
+@using AppCode
+@using AppCode.Data
 
-<div @Kit.Toolbar.Default(MyItem)>
-    Put your content here
-</div>
+@{
+  var settings = As<Settings>(MyItem);
+
+  @* TODO: get data from App.Settings *@
+  @* var projectKey = App.Settings.ProjectKey; *@
+  @* var userId = App.Settings.UserID; *@
+  var projectKey = "mikd91hyml0jo";
+  var userId = "3bfba4fe-5675-46dd-bfde-f22f014f8702";
+}
+
+@if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(projectKey))
+{
+  <div class="alert alert-warning">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h4>NanoSights</h4>
+      @Kit.Toolbar.Edit(App.Settings).AsTag() @*TODO: Toolbar to App.Settings*@
+    </div>
+    <p>To enable NanoSights, please enter your Project Key and User ID.</p>
+  </div>
+
+  return;
+}
+
+@* Show App to Admins *@
+@if (MyUser.IsContentAdmin)
+{
+  <div class="alert alert-primary">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h4>NanoSights</h4>
+      @Kit.Toolbar.Edit(App.Settings).AsTag() @*TODO: Toolbar to App.Settings*@
+    </div>
+    <div class="d-flex justify-content-between align-items-center">
+      <div class="d-flex gap-4">
+        @if (@settings.NanoAnalytics)
+        {
+          @Html.Partial("NanoAnalytics.cshtml", new { projectKey, userId })
+        }
+        @if (@settings.NanoInsights)
+        {
+          @Html.Partial("NanoInsights.cshtml", new { projectKey, userId })
+        }
+        @if (@settings.NanoCustom)
+        {
+          @Html.Partial("NanoCustom.cshtml", new { projectKey, userId })
+        }
+      </div>
+      @Kit.Toolbar.Default(MyItem).AsTag()
+    </div>
+  </div>
+}
