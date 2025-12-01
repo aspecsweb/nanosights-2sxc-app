@@ -4,18 +4,20 @@
 
 @{
   var projectKey = MyModel.Get<string>("projectKey");
-  var userId = MyModel.Get<string>("userId");
 }
 
-<div class="alert alert-dark">
-  NanoAnalytics
-
+@* Show App Settings to Admins *@
+@if (MyUser.IsContentAdmin)
+{
+  <div class="alert alert-dark">
+    NanoAnalytics
+  </div>
+} else { // Track normal users
   <nano-analytics
     projectKey="@projectKey"
-    userId="@userId"
   />
-</div>
+}
 
 <script type="module">
-  import nanoAnalytics from 'https://cdn.jsdelivr.net/npm/nano-analytics@1.0.0/+esm'
+  import nanoAnalytics from 'https://cdn.jsdelivr.net/npm/nano-analytics@1.1.0/+esm'
 </script>
