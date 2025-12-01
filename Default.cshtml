@@ -5,9 +5,7 @@
 @{
   var viewSettings = As<ViewSettings>(MyItem);
 
-  @* TODO: get data from App.Settings *@
-  @* var projectKey = App.Settings.ProjectKey; *@
-  var projectKey = "mikd91hyml0jo";
+  var projectKey = App.Settings.ProjectKey;
 
   var AppSettingsToolbar = Kit.Toolbar.Default().AppSettings().AsTag();
 }
@@ -54,6 +52,3 @@
   </div>
   @Kit.Toolbar.Edit(MyItem).AsTag()
 </div>
-
-
-@* TODO: only shows the first tag box in (nano-analytics and not all...) *@
